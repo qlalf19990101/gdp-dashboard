@@ -15,7 +15,10 @@ from streamlit_elements import elements, mui, html
 
 def get_all_news():
     all_news_df = pd.DataFrame()
-    pressDt = {'MBC': '214', '연합뉴스': '422', 'KBS': '056', 'JTBC': '437'}
+    pressDt = {'MBC': '214', '연합뉴스': '422', 'KBS': '056', 'JTBC': '437', 
+               'MBN': '057', 'SBS': '055', 'SBS_Biz': '374', 'TV조선': '448', 
+               'YTN': '052', '뉴스1': '421', '뉴시스': '003', '연합뉴스TV': '422', 
+               '채널A': '449', '한국경제TV': '215'} 
     for press, code in pressDt.items():
         url = f'https://media.naver.com/press/{code}/ranking?/type=popular'
 
@@ -41,7 +44,11 @@ def sort_news(df_news):
     specific_press = st.radio('특정 언론사만 보겠습니까?', ('Y', 'N'))
 
     if specific_press == 'Y':
-        selected_press = st.selectbox('보고싶은 언론사를 선택해주세요', ("MBC", "JTBC", "KBS", "연합뉴스"))
+        selected_press = st.selectbox('보고싶은 언론사를 선택해주세요', 
+                                      ("MBC", "JTBC", "KBS", "연합뉴스", 
+                                       "MBN", "SBS", "SBS_Biz", "TV조선", 
+                                       "YTN", "뉴스1", "뉴시스", "연합뉴스TV", 
+                                       "채널A", "한국경제TV")) 
         df_filtered = df_news[df_news['언론사'] == selected_press]
         if df_filtered.empty:
             st.write(f"{selected_press}에 대한 뉴스가 없습니다.")
