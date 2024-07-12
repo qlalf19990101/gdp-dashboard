@@ -93,23 +93,6 @@ st.title("뉴스 뷰어")  # 앱 제목 설정
 # 데이터프레임 정렬 및 표시
 sorted_df = sort_news(df_news.copy())  # sort_news 함수 호출하여 정렬
 
-"""
-if sorted_df is not None:
-    # 링크를 클릭 가능하게 만드는 함수
-    def make_clickable(val):
-        return f'<a target="_blank" href="{val}">링크</a>'
-
-    # 스타일 적용 및 인덱스 재설정
-    df_styled = sorted_df.reset_index(drop=True).style.format({'링크': make_clickable})
-    df_styled = df_styled.set_properties(**{'text-align': 'left'})
-    df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
-    st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
-
-    # 링크를 버튼으로 변경
-    for idx, (index, row) in enumerate(sorted_df.iterrows()):
-        st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
-        if st.button("기사 보기", key=f"button_{idx}"):
-"""
 
 if sorted_df is not None:
     # 링크를 클릭 가능하게 만드는 함수
