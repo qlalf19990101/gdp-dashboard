@@ -11,7 +11,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from st_component_lib import st_iframe
+from streamlit_elements import elements, mui, html
 
 def get_all_news():
     all_news_df = pd.DataFrame()
@@ -84,4 +84,5 @@ if sorted_df is not None:
     # iframe을 사용하여 링크 표시
     for index, row in sorted_df.iterrows():
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
-        st_iframe(row['링크'], width=700, height=500, scrolling=True)
+        with elements("iframe"):
+            html.iframe(src=row['링크'], width="100%", height=500)
