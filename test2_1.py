@@ -12,6 +12,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from streamlit_elements import elements, mui, html
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 
 def get_all_news():
     all_news_df = pd.DataFrame()
@@ -39,6 +40,13 @@ def get_all_news():
         all_news_df = pd.concat([all_news_df, df])
 
     return all_news_df
+
+# 페이지네이션 설정
+def paginate_dataframe(df, page_size=20):
+    grid_options_builder = GridOptionsBuilder.from_dataframe(df)
+    grid_options_builder.configure_pagination(paginationAutoPageSize=False, paginationPageSize=page_size)
+    grid_options = grid_options_builder.build()
+    AgGrid(df, gridOptions=grid_options, update_mode=GridUpdateMode.MODEL_CHANGED)
 
 
 def sort_news(df_news):
@@ -78,6 +86,8 @@ st.title("뉴스 뷰어")  # 앱 제목 설정
 
 # 데이터프레임 정렬 및 표시
 sorted_df = sort_news(df_news.copy())  # sort_news 함수 호출하여 정렬
+
+'''
 if sorted_df is not None:
     # 링크를 클릭 가능하게 만드는 함수
     def make_clickable(val):
@@ -93,4 +103,19 @@ if sorted_df is not None:
     for idx, (index, row) in enumerate(sorted_df.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
         if st.button("기사 보기", key=f"button_{idx}"):
+'''
+
+if sorted_df is not None:
+    # 링크를 클릭 가능하게 만드는 함수
+    def make_clickable(val):
+        return '<a target="_blank" href="{}">{}</a>'.format(val, val)
+
+    # 스타일 적용 및 인덱스 재설정
+    df_styled = sorted_df.reset_index(drop=True).style.format({'링크': make_clickable}) 
+    df_styled = df_styled.set_properties(**{'text-align': 'left'})
+    df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
+    # st.write(df_styled, unsafe_allow_html=True)  <- 주석 처리
+    
+    # 페이지네이션 적용
+    paginate_dataframe(df_styled)
             st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
