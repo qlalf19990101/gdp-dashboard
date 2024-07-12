@@ -41,13 +41,14 @@ def get_all_news():
 
     return all_news_df
 
-# 페이지네이션 설정
+# 페이지네이션 설정 (st_aggrid 사용하지 않음)
 def paginate_dataframe(df, page_size=20):
-    grid_options_builder = GridOptionsBuilder.from_dataframe(df)
-    grid_options_builder.configure_pagination(paginationAutoPageSize=False, paginationPageSize=page_size)
-    grid_options = grid_options_builder.build()
-    AgGrid(df, gridOptions=grid_options, update_mode=GridUpdateMode.MODEL_CHANGED)
+    num_pages = (len(df) + page_size - 1) // page_size
+    page_number = st.slider("페이지 선택", 1, num_pages) - 1
 
+    start_index = page_number * page_size
+    end_index = (page_number + 1) * page_size
+    st.dataframe(df.iloc[start_index:end_index])
 
 def sort_news(df_news):
     specific_press = st.radio('특정 언론사만 보겠습니까?', ('Y', 'N'))
@@ -115,6 +116,5 @@ if sorted_df is not None:
     df_styled = df_styled.set_properties(**{'text-align': 'left'})
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     
-    
-    # 페이지네이션 적용
+    # 페이지네이션 적용 (수동 구현)
     paginate_dataframe(df_styled)
