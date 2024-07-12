@@ -30,7 +30,8 @@ def get_all_news():
             rank = item.select_one('em.list_ranking_num').text
             title = item.select_one('strong.list_title').text
             link = item.select_one('a._es_pc_link')['href']
-            views = item.select_one('span.list_view').text
+            views_element = item.select_one('span.list_view')
+            views = views_element.text if views_element else ""  # 조회수 정보가 없으면 빈 문자열 사용
             data.append({'순위': int(rank), '제목': title, '조회수': views, '언론사': press, '링크': link})
 
         df = pd.DataFrame(data)
