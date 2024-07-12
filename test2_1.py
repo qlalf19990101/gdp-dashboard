@@ -81,8 +81,7 @@ if sorted_df is not None:
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
 
-    # iframe을 사용하여 링크 표시
+    # 링크를 버튼으로 변경
     for index, row in sorted_df.iterrows():
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
-        with elements("iframe"):
-            html.iframe(src=row['링크'], width="100%", height=500)
+        st.button("기사 보기", key=index, on_click=lambda: st.experimental_set_query_params(url=row['링크']))
