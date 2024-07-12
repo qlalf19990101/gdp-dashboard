@@ -114,8 +114,7 @@ if sorted_df is not None:
     df_styled = sorted_df.reset_index(drop=True).style.format({'링크': make_clickable}) 
     df_styled = df_styled.set_properties(**{'text-align': 'left'})
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
-    # st.write(df_styled, unsafe_allow_html=True)  <- 주석 처리
+    
     
     # 페이지네이션 적용
     paginate_dataframe(df_styled)
-            st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
