@@ -62,10 +62,6 @@ def paginate_dataframe(df, page_size=20):
     grid_options_builder.configure_pagination(paginationAutoPageSize=False, paginationPageSize=page_size)
     grid_options = grid_options_builder.build()
     AgGrid(df_page, gridOptions=grid_options, update_mode=GridUpdateMode.MODEL_CHANGED)
-    
-    start_index = page_number * page_size
-    end_index = (page_number + 1) * page_size
-    st.dataframe(df.iloc[start_index:end_index])
 
 def sort_news(df_news):
     specific_press = st.radio('특정 언론사만 보겠습니까?', ('Y', 'N'))
