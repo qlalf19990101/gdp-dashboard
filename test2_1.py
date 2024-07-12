@@ -48,9 +48,21 @@ def paginate_dataframe(df, page_size=20):
         st.write("데이터가 없습니다.")
         return
     
-    num_pages = (num_rows + page_size - 1) // page_size
-    page_number = st.slider("페이지 선택", 1, num_pages) - 1
-
+    num_pages = (num_rows + page_size - 1) // page_size  # 전체 페이지 수 계산
+    
+    page_number = st.slider("페이지 선택", 1, num_pages)  # -1 제거, num_pages 값 범위 확인
+    
+    start_row = page_number * page_size
+    end_row = min(start_row + page_size, num_rows)
+    
+    # 페이지에 해당하는 데이터만 표시
+    df_page = df.iloc[start_row:end_row]
+    
+    grid_options_builder = GridOptionsBuilder.from_dataframe(df_page)
+    grid_options_builder.configure_pagination(paginationAutoPageSize=False, paginationPageSize=page_size)
+    grid_options = grid_options_builder.build()
+    AgGrid(df_page, gridOptions=grid_options, update_mode=GridUpdateMode.MODEL_CHANGED)
+    
     start_index = page_number * page_size
     end_index = (page_number + 1) * page_size
     st.dataframe(df.iloc[start_index:end_index])
@@ -105,4 +117,4 @@ if sorted_df is not None:
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     
     # 페이지네이션 적용 (수동 구현)
-    paginate_dataframe(sorted_df)
+    paginate_dataframe(df_styled)
