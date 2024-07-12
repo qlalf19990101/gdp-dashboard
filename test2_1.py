@@ -84,4 +84,5 @@ if sorted_df is not None:
     # 링크를 버튼으로 변경
     for idx, (index, row) in enumerate(sorted_df.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
-        st.button("기사 보기", key=f"button_{idx}", on_click=lambda: st.experimental_set_query_params(url=row['링크']))
+        if st.button("기사 보기", key=f"button_{idx}"):
+            st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
