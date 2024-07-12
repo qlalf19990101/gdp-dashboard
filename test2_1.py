@@ -113,4 +113,4 @@ if sorted_df is not None:
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     
     # 페이지네이션 적용 (수동 구현)
-    paginate_dataframe(sorted_df)
+    paginate_dataframe(df_styled.data)
