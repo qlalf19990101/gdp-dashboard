@@ -44,8 +44,11 @@ def get_all_news():
 # 페이지네이션 설정 (st_aggrid 사용하지 않음)
 def paginate_dataframe(df, page_size=20):
     num_rows = len(df)
-    num_pages = (num_rows + page_size - 1) // page_size  # 전체 페이지 수 계산
+    if num_rows == 0:
+        st.write("데이터가 없습니다.")
+        return
     
+    num_pages = (num_rows + page_size - 1) // page_size
     page_number = st.slider("페이지 선택", 1, num_pages) - 1
 
     start_index = page_number * page_size
