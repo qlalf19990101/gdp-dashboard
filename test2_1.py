@@ -12,7 +12,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from streamlit_elements import elements, mui, html
-from streamlit-aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
+from streamlit_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 
 def get_all_news():
     all_news_df = pd.DataFrame()
