@@ -35,9 +35,7 @@ def get_all_news():
             data.append({'순위': int(rank), '제목': title, '조회수': views, '언론사': press, '링크': link})
 
         df = pd.DataFrame(data)
-        if not df['조회수'].empty:  # 조회수 열이 비어있지 않은 경우에만 변환 적용
-          df['조회수'] = df['조회수'].str.replace('\n조회수\n', '').str.replace('\n', '').str.replace(',', '').str.strip().astype(int)
-    
+        df['조회수'] = df['조회수'].apply(lambda x: int(x.replace('\n조회수\n', '').replace('\n', '').replace(',', '').strip()) if x != "" else 0)
         all_news_df = pd.concat([all_news_df, df])
 
     return all_news_df
