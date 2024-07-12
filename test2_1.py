@@ -82,6 +82,6 @@ if sorted_df is not None:
     st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
 
     # 링크를 버튼으로 변경
-    for index, row in sorted_df.iterrows():
+    for idx, (index, row) in enumerate(sorted_df.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
-        st.button("기사 보기", key=f"button_{index}", on_click=lambda: st.experimental_set_query_params(url=row['링크']))
+        st.button("기사 보기", key=f"button_{idx}", on_click=lambda: st.experimental_set_query_params(url=row['링크']))
