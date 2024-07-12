@@ -3,4 +3,4 @@ pandas
 requests
 beautifulsoup4
 streamlit-elements
-streamlit-aggrid==1.0.5
+streamlit_aggrid==1.0.5
