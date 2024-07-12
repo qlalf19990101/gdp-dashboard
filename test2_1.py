@@ -11,6 +11,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from st_component_lib import st_iframe
 
 def get_all_news():
     all_news_df = pd.DataFrame()
@@ -79,3 +80,8 @@ if sorted_df is not None:
     df_styled = df_styled.set_properties(**{'text-align': 'left'})
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
+
+    # iframe을 사용하여 링크 표시
+    for index, row in sorted_df.iterrows():
+        st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
+        st_iframe(row['링크'], width=700, height=500, scrolling=True)
