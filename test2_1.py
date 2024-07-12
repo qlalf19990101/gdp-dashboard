@@ -87,7 +87,7 @@ st.title("뉴스 뷰어")  # 앱 제목 설정
 # 데이터프레임 정렬 및 표시
 sorted_df = sort_news(df_news.copy())  # sort_news 함수 호출하여 정렬
 
-'''
+"""
 if sorted_df is not None:
     # 링크를 클릭 가능하게 만드는 함수
     def make_clickable(val):
@@ -103,7 +103,7 @@ if sorted_df is not None:
     for idx, (index, row) in enumerate(sorted_df.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
         if st.button("기사 보기", key=f"button_{idx}"):
-'''
+"""
 
 if sorted_df is not None:
     # 링크를 클릭 가능하게 만드는 함수
