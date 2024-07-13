@@ -122,8 +122,24 @@ def page2():
 
     # 페이지네이션
     page_size = 20
-    page_number = st.number_input("페이지 번호", min_value=1, step=1, value=1)
-    start_index = (page_number - 1) * page_size
+    total_pages = (len(df_filtered) + page_size - 1) // page_size  # 전체 페이지 수 계산
+
+    if 'page_number' not in st.session_state:
+        st.session_state['page_number'] = 1  # 현재 페이지 번호를 세션 상태에 저장
+
+    col1, col2, col3 = st.columns([1, 3, 1])  # 페이지 이동 버튼을 위한 레이아웃
+
+    if st.session_state['page_number'] > 1:
+        if col1.button("이전 페이지"):
+            st.session_state['page_number'] -= 1
+    
+    col2.write(f"페이지: {st.session_state['page_number']} / {total_pages}")  # 현재 페이지 번호 표시
+
+    if st.session_state['page_number'] < total_pages:
+        if col3.button("다음 페이지"):
+            st.session_state['page_number'] += 1
+
+    start_index = (st.session_state['page_number'] - 1) * page_size
     end_index = start_index + page_size
     df_page = df_filtered.iloc[start_index:end_index]
 
