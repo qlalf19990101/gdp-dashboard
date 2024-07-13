@@ -110,19 +110,24 @@ def page2():
 
     # 검색어 입력
     search_keyword = st.text_input("검색어를 입력하세요:")
-
+    
     # 뉴스 데이터 필터링 및 정렬
     df_filtered = df_news.copy()
     if specific_press == 'Y':
         df_filtered = df_filtered[df_filtered['언론사'] == selected_press]
     if search_keyword:
         df_filtered = df_filtered[df_filtered['제목'].str.contains(search_keyword)]
-    if criteria == '조회수':
-        df_filtered = df_filtered.sort_values(by='조회수', ascending=False)
-    elif criteria == '언론사':
-        df_filtered = df_filtered.sort_values(by=['언론사', '순위'])
-    elif criteria == '순위':
-        df_filtered = df_filtered.sort_values(by='순위')
+    
+    # 검색 결과가 없는 경우 처리
+    if df_filtered.empty:
+        st.write("검색 결과가 없습니다.")
+    else: # 검색 결과가 있는 경우에만 정렬
+        if criteria == '조회수':
+            df_filtered = df_filtered.sort_values(by='조회수', ascending=False)
+        elif criteria == '언론사':
+            df_filtered = df_filtered.sort_values(by=['언론사', '순위'])
+        elif criteria == '순위':
+            df_filtered = df_filtered.sort_values(by='순위')
 
 
     # 페이지네이션
