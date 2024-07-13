@@ -13,7 +13,6 @@ import streamlit as st
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from streamlit_multipage import MultiPage
 
 # 뉴스데이터 가져오고 필터링
 def get_all_news():
@@ -74,10 +73,9 @@ def sort_news(df_news):
 df_news = get_all_news()
 
 
-# 첫 번째 페이지
 def page1():
     st.title("뉴스 뷰어 - 필터 선택")
-
+    
     # 세션 상태 초기화
     if 'specific_press' not in st.session_state:
         st.session_state['specific_press'] = 'N'
@@ -96,12 +94,6 @@ def page1():
                                  "채널A", "한국경제TV"), key='press_select')
 
     st.session_state['criteria'] = st.selectbox('정렬할 기준을 선택해주세요', ("조회수", "언론사", "순위"), key='criteria_select')
-
-    if st.button("뉴스 보기"):
-        page2()
-        # 두 번째 페이지로 이동
-        
-        # ...
 
 
 def page2():
@@ -145,13 +137,16 @@ def page2():
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
         if st.button("기사 보기", key=f"button_{idx}"):
            st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
-            
 
-# 앱 실행
-app = MultiPage()
-app.st = st
-pages = {
-    "필터 선택": page1,
-    "뉴스 보기": page2,
-}
-app.run(pages)
+
+# 앱 실행 및 페이지 관리
+if 'page' not in st.session_state:
+    st.session_state['page'] = "필터 선택"
+
+page = st.sidebar.radio("페이지 선택", ("필터 선택", "뉴스 보기"))
+st.session_state['page'] = page
+
+if st.session_state['page'] == "필터 선택":
+    page1()
+elif st.session_state['page'] == "뉴스 보기":
+    page2()
