@@ -138,8 +138,8 @@ def page2():
             st.session_state['page_number'] -= 1
             st.experimental_rerun()  # 페이지 새로고침
     
-     # 페이지 번호 중앙 정렬 (st.columns 제거)
-    st.markdown(f'<div style="text-align: center;">페이지: {st.session_state["page_number"]} / {total_pages}</div>', unsafe_allow_html=True)
+    # 페이지 번호 중앙 정렬 (st.columns 내부로 이동)
+    col2.markdown(f'<div style="text-align: center;">페이지: {st.session_state["page_number"]} / {total_pages}</div>', unsafe_allow_html=True)
 
     if st.session_state['page_number'] < total_pages:
         if col3.button("다음 페이지"):
