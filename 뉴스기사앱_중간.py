@@ -140,10 +140,10 @@ def page2():
             st.experimental_rerun()  # 페이지 새로고침
     
     # 페이지 번호 입력 필드 추가 (col1에 추가)
-    st.session_state['page_number'] = col1.number_input("페이지 번호 입력:", min_value=1, max_value=total_pages, value=st.session_state['page_number'], step=1)
-    if st.session_state['page_number'] != col1.number_input.value: # 수정된 부분
+    page_number_input = col1.number_input("페이지 번호 입력:", min_value=1, max_value=total_pages, value=st.session_state['page_number'], step=1) # 변수에 할당
+    if st.session_state['page_number'] != page_number_input: # 수정된 부분
+        st.session_state['page_number'] = page_number_input
         st.experimental_rerun()
-
     
     # 페이지 번호 중앙 정렬 (st.columns 내부로 이동)
     col2.markdown(f'<div style="text-align: center;">페이지: {st.session_state["page_number"]} / {total_pages}</div>', unsafe_allow_html=True)
