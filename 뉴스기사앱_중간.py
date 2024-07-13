@@ -149,6 +149,6 @@ def page2():
 
 # 앱 실행
 app = MultiPage()
-app.add_page("필터 선택", page1)
-app.add_page("뉴스 보기", page2)
+app.add_page("필터 선택", page1)  # page1 함수 자체를 넘겨줌
+app.add_page("뉴스 보기", page2)  # page2 함수 자체를 넘겨줌
 app.run()
