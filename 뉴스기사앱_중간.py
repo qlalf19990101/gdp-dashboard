@@ -132,11 +132,26 @@ def page2():
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
 
-    # 링크를 버튼으로 변경 (iframe 사용)
+    # 링크를 버튼으로 변경 (기사 본문 추출)
     for idx, (index, row) in enumerate(df_page.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
         if st.button("기사 보기", key=f"button_{idx}"):
-            st.components.v1.iframe(row["링크"], width=700, height=600, scrolling=True)
+            try:
+                response = requests.get(row["링크"])
+                response.raise_for_status()  # HTTP 오류 발생 시 예외 발생
+                soup = BeautifulSoup(response.content, 'html.parser')
+
+                # 기사 본문 내용 추출
+                article_content_box = soup.select_one('article#dic_area.go_trans._article_content')
+                if article_content_box:
+                    # 본문 박스 안의 모든 텍스트 추출
+                    article_content = article_content_box.get_text(strip=True)
+                    st.write(article_content)
+                else:
+                    st.error("기사 본문을 찾을 수 없습니다.")
+
+            except requests.exceptions.RequestException as e:
+                st.error(f"기사를 가져오는 중 오류가 발생했습니다: {e}")
 
 
 # 앱 실행 및 페이지 관리
