@@ -121,6 +121,7 @@ def page2():
     # 검색 결과가 없는 경우 처리
     if df_filtered.empty:
         st.write("검색 결과가 없습니다.")
+        total_pages = 1
     else: # 검색 결과가 있는 경우에만 정렬
         if criteria == '조회수':
             df_filtered = df_filtered.sort_values(by='조회수', ascending=False)
