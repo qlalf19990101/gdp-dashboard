@@ -95,6 +95,10 @@ def page1():
 
     st.session_state['criteria'] = st.selectbox('정렬할 기준을 선택해주세요', ("조회수", "언론사", "순위"), key='criteria_select')
 
+# 링크를 클릭 가능하게 만드는 함수 (page2 함수 외부로 이동)
+def make_clickable(val):
+    return f'<a target="_blank" href="{val}">링크</a>'
+
 
 def page2():
     st.title("오늘의 뉴스")  # 타이틀 변경
