@@ -97,17 +97,22 @@ def page1():
 
 
 def page2():
-    st.title("뉴스 뷰어 - 결과")
+    st.title("오늘의 뉴스")
 
     # 세션 상태에서 선택된 값 가져오기
     specific_press = st.session_state['specific_press']
     selected_press = st.session_state['selected_press']
     criteria = st.session_state['criteria']
 
+    # 검색어 입력
+    search_keyword = st.text_input("검색어를 입력하세요:")
+
     # 뉴스 데이터 필터링 및 정렬
     df_filtered = df_news.copy()
     if specific_press == 'Y':
         df_filtered = df_filtered[df_filtered['언론사'] == selected_press]
+    if search_keyword:
+        df_filtered = df_filtered[df_filtered['제목'].str.contains(search_keyword)]
     if criteria == '조회수':
         df_filtered = df_filtered.sort_values(by='조회수', ascending=False)
     elif criteria == '언론사':
