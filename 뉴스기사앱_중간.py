@@ -98,8 +98,9 @@ def page1():
     st.session_state['criteria'] = st.selectbox('정렬할 기준을 선택해주세요', ("조회수", "언론사", "순위"), key='criteria_select')
 
     if st.button("뉴스 보기"):
+        page2()
         # 두 번째 페이지로 이동
-        # (streamlit_multipage에서 페이지 이동 기능을 사용해야 합니다.)
+        
         # ...
 
 
