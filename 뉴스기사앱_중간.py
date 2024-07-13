@@ -130,36 +130,16 @@ def page2():
 
     if 'page_number' not in st.session_state:
         st.session_state['page_number'] = 1  # 현재 페이지 번호를 세션 상태에 저장
-    
-    if 'show_search' not in st.session_state:
-        st.session_state['show_search'] = False  # 검색창 표시 여부를 세션 상태에 저장
 
     col1, col2, col3 = st.columns([1, 3, 1])  # 페이지 이동 버튼을 위한 레이아웃
 
-    # 페이지 번호 입력 및 이동
-    go_to_page = col1.number_input("페이지 번호 입력:", min_value=1, max_value=total_pages, value=st.session_state['page_number'])
-    if col1.button("이동"):
-        st.session_state['page_number'] = go_to_page
-        st.experimental_rerun()
-
-    # 검색 버튼
-    if col2.button("검색"):
-        st.session_state['show_search'] = not st.session_state['show_search']
-        st.experimental_rerun()
-
-    # 검색창 표시
-    if st.session_state['show_search']:
-        search_keyword = st.text_input("검색어를 입력하세요:")
-        if search_keyword:
-            df_filtered = df_filtered[df_filtered['제목'].str.contains(search_keyword)]
-
-    # 페이지 번호 중앙 정렬
-    col2.markdown(f'<div style="text-align: center;">페이지: {st.session_state["page_number"]} / {total_pages}</div>', unsafe_allow_html=True)
-
     if st.session_state['page_number'] > 1:  # 1페이지에서는 이전 페이지 버튼 숨김
-        if col3.button("이전 페이지"):
+        if col1.button("이전 페이지"):
             st.session_state['page_number'] -= 1
             st.experimental_rerun()  # 페이지 새로고침
+    
+    # 페이지 번호 중앙 정렬 (st.columns 내부로 이동)
+    col2.markdown(f'<div style="text-align: center;">페이지: {st.session_state["page_number"]} / {total_pages}</div>', unsafe_allow_html=True)
 
     if st.session_state['page_number'] < total_pages:
         if col3.button("다음 페이지"):
