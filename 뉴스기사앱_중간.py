@@ -97,7 +97,7 @@ def page1():
 
 
 def page2():
-    st.title("오늘의 뉴스")
+    st.title("오늘의 뉴스")  # 타이틀 변경
 
     # 세션 상태에서 선택된 값 가져오기
     specific_press = st.session_state['specific_press']
@@ -129,29 +129,21 @@ def page2():
 
     col1, col2, col3 = st.columns([1, 3, 1])  # 페이지 이동 버튼을 위한 레이아웃
 
-    if st.session_state['page_number'] > 1:
+    if st.session_state['page_number'] > 1:  # 1페이지에서는 이전 페이지 버튼 숨김
         if col1.button("이전 페이지"):
             st.session_state['page_number'] -= 1
+            st.experimental_rerun()  # 페이지 새로고침
     
     col2.write(f"페이지: {st.session_state['page_number']} / {total_pages}")  # 현재 페이지 번호 표시
 
     if st.session_state['page_number'] < total_pages:
         if col3.button("다음 페이지"):
             st.session_state['page_number'] += 1
+            st.experimental_rerun()  # 페이지 새로고침
 
     start_index = (st.session_state['page_number'] - 1) * page_size
     end_index = start_index + page_size
     df_page = df_filtered.iloc[start_index:end_index]
-
-    # 링크를 클릭 가능하게 만드는 함수
-    def make_clickable(val):
-        return f'<a target="_blank" href="{val}">링크</a>'
-
-    # 스타일 적용 및 인덱스 재설정
-    df_styled = df_page.reset_index(drop=True).style.format({'링크': make_clickable})
-    df_styled = df_styled.set_properties(**{'text-align': 'left'})
-    df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
-    st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
 
     # 링크를 버튼처럼 보이도록 스타일링
     for idx, (index, row) in enumerate(df_page.iterrows()):
