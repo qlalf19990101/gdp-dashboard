@@ -103,7 +103,6 @@ def page1():
         # ...
 
 
-# 두 번째 페이지
 def page2():
     st.title("뉴스 뷰어 - 결과")
 
@@ -136,6 +135,15 @@ def page2():
 
     # 스타일 적용 및 인덱스 재설정
     df_styled = df_page.reset_index(drop=True).style.format({'링크': make_clickable})
+    df_styled = df_styled.set_properties(**{'text-align': 'left'})
+    df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
+    st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
+
+    # 링크를 버튼으로 변경 (리디렉션 사용)
+    for idx, (index, row) in enumerate(df_page.iterrows()):
+        st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
+        if st.button("기사 보기", key=f"button_{idx}"):
+           st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
 
 
 # 앱 실행
