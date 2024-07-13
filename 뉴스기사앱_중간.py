@@ -132,11 +132,11 @@ def page2():
     df_styled = df_styled.set_table_styles([dict(selector='th', props=[('text-align', 'left')])])
     st.write(df_styled, unsafe_allow_html=True)  # Streamlit에 데이터프레임 표시
 
-    # 링크를 버튼으로 변경 (리디렉션 사용)
+    # 링크를 버튼으로 변경 (iframe 사용)
     for idx, (index, row) in enumerate(df_page.iterrows()):
         st.write(f"{row['순위']}. {row['제목']} ({row['언론사']}, 조회수: {row['조회수']})")
         if st.button("기사 보기", key=f"button_{idx}"):
-           st.markdown(f'<a href="{row["링크"]}" target="_blank">새 창에서 기사 보기</a>', unsafe_allow_html=True)
+            st.components.v1.iframe(row["링크"], width=700, height=600, scrolling=True)
 
 
 # 앱 실행 및 페이지 관리
