@@ -80,8 +80,10 @@ if 'page' not in st.session_state:
 page = st.sidebar.radio("페이지 선택", ("필터 선택", "뉴스 보기"))
 st.session_state['page'] = page
 
+page_number = 1
 
 def page1():
+    global page_number 
     st.title("뉴스 뷰어 - 필터 선택")
 
     # 세션 상태 초기화
@@ -104,8 +106,7 @@ def page1():
     st.session_state['criteria'] = st.selectbox('정렬할 기준을 선택해주세요', ("조회수", "언론사", "순위"), key='criteria_select')
 
     if st.button("뉴스 보기"):
-        st.session_state['page'] = "뉴스 보기"
-        st.experimental_rerun()  # 페이지 새로고침
+        page_number = 2  # 버튼 클릭 시 page_number를 2로 변경
 
 # 링크를 클릭 가능하게 만드는 함수 (page2 함수 외부로 이동)
 def make_clickable(val):
@@ -187,8 +188,7 @@ def page2():
 
 
 # 페이지 관리
-
-if st.session_state['page'] == "필터 선택":
+if page_number == 1:
     page1()
-elif st.session_state['page'] == "뉴스 보기":
+elif page_number == 2:
     page2()
