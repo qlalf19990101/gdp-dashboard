@@ -99,6 +99,10 @@ def page1():
     if st.button("뉴스 보기"):
         st.session_state['page'] = "뉴스 보기"
         st.experimental_rerun()
+    else:  # "뉴스 보기" 버튼이 클릭되지 않은 경우에만 실행
+        page = st.sidebar.radio("페이지 선택", ("필터 선택", "뉴스 보기"))
+        st.session_state['page'] = page
+
 
 # 링크를 클릭 가능하게 만드는 함수 (page2 함수 외부로 이동)
 def make_clickable(val):
