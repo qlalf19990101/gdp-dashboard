@@ -73,6 +73,14 @@ def sort_news(df_news):
 df_news = get_all_news()
 
 
+#페이지 만들기
+if 'page' not in st.session_state:
+    st.session_state['page'] = "필터 선택"
+
+page = st.sidebar.radio("페이지 선택", ("필터 선택", "뉴스 보기"))
+st.session_state['page'] = page
+
+
 def page1():
     st.title("뉴스 뷰어 - 필터 선택")
 
@@ -178,12 +186,7 @@ def page2():
         st.markdown(f'<a href="{row["링크"]}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">기사 보기</a>', unsafe_allow_html=True)
 
 
-# 앱 실행 및 페이지 관리
-if 'page' not in st.session_state:
-    st.session_state['page'] = "필터 선택"
-
-page = st.sidebar.radio("페이지 선택", ("필터 선택", "뉴스 보기"))
-st.session_state['page'] = page
+# 페이지 관리
 
 if st.session_state['page'] == "필터 선택":
     page1()
