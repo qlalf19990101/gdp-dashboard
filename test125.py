@@ -130,12 +130,14 @@ elif input_method == "레시피별 재료 입력":
 
     elif recipe_choice == "고급 보스킬러의 비약":
         # 고급 보스킬러의 비약 입력
+        boss_potion = get_input("boss_potion", 0.0)
         boss_base = get_input("boss_base", 0.0)
         hisop = get_input("hisop", 0.0)
         twilight_essence = get_input("twilight_essence", 0.0)
         spell_essence = get_input("spell_essence", 0.0)
 
         st.subheader("고급 보스킬러의 비약")
+        boss_potion = st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_potion)
         boss_base = st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_base)
         hisop = st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=hisop)
         twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
@@ -143,7 +145,7 @@ elif input_method == "레시피별 재료 입력":
 
         if st.button("고급 보스킬러의 비약 계산하기"):
             # 고급 보스킬러의 비약 계산
-            money_per_fatigue = boss_base * 2 - (hisop * 60 + twilight_essence + spell_essence)
+            money_per_fatigue = boss_potion * 2 - (boss_base + hisop * 60 + twilight_essence + spell_essence)
             total_money = money_per_fatigue * 50
             st.write(f"피로도 10당 이익: {format_money(money_per_fatigue)}")
             st.write(f"피로도 500 소진 시 총 이익: {format_money(total_money)}")
