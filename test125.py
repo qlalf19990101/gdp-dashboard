@@ -85,7 +85,7 @@ if input_method == "전체 재료 입력":
         total_boss_potion = money_boss_potion * 50
 
         # 3. 고농축 소형 경험 획득의 비약 계산
-        total_material_cost_high_exp = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+        total_material_cost_high_exp = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
         money_high_small_exp = (high_small_exp * 4) - total_material_cost_high_exp
         total_high_small_exp = money_high_small_exp * 100
 
