@@ -20,8 +20,8 @@ def get_input(key, default_value=0.0):
 def set_input(key, value):
     st.session_state[key] = value
 
-# 제작 재료 탭
-st.header("제작 재료 입력")
+# 전체 재료 탭
+st.header("모든 재료 입력")
 with st.expander("재료 입력"):
     # 공통 재료를 한번에 입력할 수 있는 필드
     seed = get_input("seed", 0.0)
@@ -71,43 +71,35 @@ with st.expander("재료 입력"):
 
         st.success("재료 값이 저장되었습니다!")
 
-# 사용자에게 비약 선택 요청
-option = st.selectbox(
-    "계산하려는 비약을 선택하세요:",
-    ("소형 재물 획득의 비약", "고급 보스킬러의 비약", "고농축 소형 경험 획득의 비약")
-)
+# 레시피별 계산 탭
+st.header("레시피별 계산")
+with st.expander("각 레시피 이익 계산"):
+    col1, col2 = st.columns(2)
 
-# 소형 재물 획득의 비약
-if option == "소형 재물 획득의 비약":
-    st.header("소형 재물 획득의 비약 계산")
-    
-    # 계산
-    money_per_fatigue = potion * 6 - (seed * 30 + dol + dol2 * 2)
-    total_money = money_per_fatigue * 100
-    st.success(f"피로도 5당 이익: {format_money(money_per_fatigue)}")
-    st.success(f"피로도 500 소진 시 총 이익: {format_money(total_money)}")
+    # 계산할 비약 선택
+    with col1:
+        st.subheader("소형 재물 획득의 비약")
+        # 소형 재물 획득의 비약 계산
+        money_per_fatigue = potion * 6 - (seed * 30 + dol + dol2 * 2)
+        total_money = money_per_fatigue * 100
+        st.write(f"피로도 5당 이익: {format_money(money_per_fatigue)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_money)}")
 
-# 고급 보스킬러의 비약
-elif option == "고급 보스킬러의 비약":
-    st.header("고급 보스킬러의 비약 계산")
-    
-    # 계산
-    boss_material_cost = boss_base + hisop * 60 + twilight_essence + spell_essence
-    profit_per_10_fatigue = boss_potion * 2 - boss_material_cost
-    total_boss_profit = profit_per_10_fatigue * 50
-    st.success(f"피로도 10당 이익: {format_money(profit_per_10_fatigue)}")
-    st.success(f"피로도 500 소진 시 총 이익: {format_money(total_boss_profit)}")
+    with col2:
+        st.subheader("고급 보스킬러의 비약")
+        # 고급 보스킬러의 비약 계산
+        boss_material_cost = boss_base + hisop * 60 + twilight_essence + spell_essence
+        profit_per_10_fatigue = boss_potion * 2 - boss_material_cost
+        total_boss_profit = profit_per_10_fatigue * 50
+        st.write(f"피로도 10당 이익: {format_money(profit_per_10_fatigue)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_boss_profit)}")
 
-# 고농축 소형 경험 획득의 비약
-elif option == "고농축 소형 경험 획득의 비약":
-    st.header("고농축 소형 경험 획득의 비약 계산")
-    
-    # 토탈 계산: 소형 경험 획득의 비약 가격으로 총 제작 비용 계산
-    total_material_cost = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
-    
-    # 이익 계산: 소형 고농축 경험 획득의 비약 가격을 기준으로 계산
-    profit_per_5_fatigue = (high_small_exp * 4) - total_material_cost
-    total_exp_profit = profit_per_5_fatigue * 100
-    
-    st.success(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
-    st.success(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
+    with col1:
+        st.subheader("고농축 소형 경험 획득의 비약")
+        # 고농축 소형 경험 획득의 비약 계산
+        total_material_cost = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+        profit_per_5_fatigue = (high_small_exp * 4) - total_material_cost
+        total_exp_profit = profit_per_5_fatigue * 100
+        st.write(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
+
