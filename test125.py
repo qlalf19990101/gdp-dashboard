@@ -20,56 +20,78 @@ def get_input(key, default_value=0.0):
 def set_input(key, value):
     st.session_state[key] = value
 
-# 전체 재료 탭
+# 전체 재료 입력 탭
 st.header("모든 재료 입력")
-with st.expander("재료 입력"):
-    # 공통 재료를 한번에 입력할 수 있는 필드
-    seed = get_input("seed", 0.0)
-    dol = get_input("dol", 0.0)
-    dol2 = get_input("dol2", 0.0)
-    potion = get_input("potion", 0.0)
-    boss_potion = get_input("boss_potion", 0.0)
-    boss_base = get_input("boss_base", 0.0)
-    hisop = get_input("hisop", 0.0)
-    twilight_essence = get_input("twilight_essence", 0.0)
-    spell_essence = get_input("spell_essence", 0.0)
-    recipe = get_input("recipe", 0.0)
-    small_exp = get_input("small_exp", 0.0)
-    mana_crystal = get_input("mana_crystal", 0.0)
-    high_small_exp = get_input("high_small_exp", 0.0)  # 고농축 소형 경험 획득 비약 가격 추가
+input_method = st.radio("재료 입력 방식 선택", ["전체 재료 입력", "레시피별 재료 입력"])
 
-    # 재료값 입력
-    seed = st.number_input("쥬니퍼베리 씨앗의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=seed)
-    dol = st.number_input("현자의 돌의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=dol)
-    dol2 = st.number_input("최상급 아이템 결정의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=dol2)
-    potion = st.number_input("소형 재물 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=potion)
-    boss_potion = st.number_input("고급 보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_potion)
-    boss_base = st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_base)
-    hisop = st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=hisop)
-    twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
-    spell_essence = st.number_input("상급 주문의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=spell_essence)
-    recipe = st.number_input("고농축 레시피 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=recipe)
-    small_exp = st.number_input("소형 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=small_exp)
-    mana_crystal = st.number_input("마력결정 1개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=mana_crystal)
-    high_small_exp = st.number_input("소형 고농축 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=high_small_exp)
+if input_method == "전체 재료 입력":
+    with st.expander("전체 재료 입력"):
+        # 공통 재료를 한번에 입력할 수 있는 필드
+        seed = get_input("seed", 0.0)
+        dol = get_input("dol", 0.0)
+        dol2 = get_input("dol2", 0.0)
+        potion = get_input("potion", 0.0)
+        boss_potion = get_input("boss_potion", 0.0)
+        boss_base = get_input("boss_base", 0.0)
+        hisop = get_input("hisop", 0.0)
+        twilight_essence = get_input("twilight_essence", 0.0)
+        spell_essence = get_input("spell_essence", 0.0)
+        recipe = get_input("recipe", 0.0)
+        small_exp = get_input("small_exp", 0.0)
+        mana_crystal = get_input("mana_crystal", 0.0)
+        high_small_exp = get_input("high_small_exp", 0.0)  # 고농축 소형 경험 획득 비약 가격 추가
 
-    # 값을 세션 상태에 저장
-    if st.button("저장"):
-        set_input("seed", seed)
-        set_input("dol", dol)
-        set_input("dol2", dol2)
-        set_input("potion", potion)
-        set_input("boss_potion", boss_potion)
-        set_input("boss_base", boss_base)
-        set_input("hisop", hisop)
-        set_input("twilight_essence", twilight_essence)
-        set_input("spell_essence", spell_essence)
-        set_input("recipe", recipe)
-        set_input("small_exp", small_exp)
-        set_input("mana_crystal", mana_crystal)
-        set_input("high_small_exp", high_small_exp)
+        # 재료값 입력
+        seed = st.number_input("쥬니퍼베리 씨앗의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=seed)
+        dol = st.number_input("현자의 돌의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=dol)
+        dol2 = st.number_input("최상급 아이템 결정의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=dol2)
+        potion = st.number_input("소형 재물 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=potion)
+        boss_potion = st.number_input("고급 보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_potion)
+        boss_base = st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_base)
+        hisop = st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=hisop)
+        twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
+        spell_essence = st.number_input("상급 주문의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=spell_essence)
+        recipe = st.number_input("고농축 레시피 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=recipe)
+        small_exp = st.number_input("소형 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=small_exp)
+        mana_crystal = st.number_input("마력결정 1개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=mana_crystal)
+        high_small_exp = st.number_input("소형 고농축 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=high_small_exp)
 
-        st.success("재료 값이 저장되었습니다!")
+        # 값을 세션 상태에 저장
+        if st.button("저장"):
+            set_input("seed", seed)
+            set_input("dol", dol)
+            set_input("dol2", dol2)
+            set_input("potion", potion)
+            set_input("boss_potion", boss_potion)
+            set_input("boss_base", boss_base)
+            set_input("hisop", hisop)
+            set_input("twilight_essence", twilight_essence)
+            set_input("spell_essence", spell_essence)
+            set_input("recipe", recipe)
+            set_input("small_exp", small_exp)
+            set_input("mana_crystal", mana_crystal)
+            set_input("high_small_exp", high_small_exp)
+
+            st.success("재료 값이 저장되었습니다!")
+
+elif input_method == "레시피별 재료 입력":
+    # 레시피별 재료만 입력하는 방식
+    st.subheader("고급 보스킬러의 비약 계산")
+    st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, key="boss_base_2")
+    st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, key="hisop_2")
+    st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, key="twilight_essence_2")
+    st.number_input("상급 주문의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, key="spell_essence_2")
+    if st.button("고급 보스킬러 계산하기"):
+        # 고급 보스킬러의 비약 계산
+        boss_base_2 = st.session_state.get("boss_base_2")
+        hisop_2 = st.session_state.get("hisop_2")
+        twilight_essence_2 = st.session_state.get("twilight_essence_2")
+        spell_essence_2 = st.session_state.get("spell_essence_2")
+        boss_material_cost = boss_base_2 + hisop_2 * 60 + twilight_essence_2 + spell_essence_2
+        profit_per_10_fatigue = boss_potion * 2 - boss_material_cost
+        total_boss_profit = profit_per_10_fatigue * 50
+        st.write(f"피로도 10당 이익: {format_money(profit_per_10_fatigue)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_boss_profit)}")
 
 # 레시피별 계산 탭
 st.header("레시피별 계산")
@@ -102,4 +124,3 @@ with st.expander("각 레시피 이익 계산"):
         total_exp_profit = profit_per_5_fatigue * 100
         st.write(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
         st.write(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
-
