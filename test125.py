@@ -159,13 +159,14 @@ elif input_method == "레시피별 재료 입력":
         st.subheader("고농축 소형 경험 획득의 비약")
         recipe = st.number_input("고농축 레시피 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=recipe)
         high_small_exp = st.number_input("소형 고농축 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=high_small_exp)
+        small_exp = st.number_input("소형 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=small_exp)
         hisop = st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=hisop)
         twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
         mana_crystal = st.number_input("마력결정 1개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=mana_crystal)
 
         if st.button("고농축 소형 경험 획득의 비약 계산하기"):
             # 고농축 소형 경험 획득의 비약 계산
-            total_material_cost = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+            total_material_cost = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
             money_per_fatigue = high_small_exp * 4 - total_material_cost
             total_money = money_per_fatigue * 100
             st.write(f"피로도 5당 이익: {format_money(money_per_fatigue)}")
