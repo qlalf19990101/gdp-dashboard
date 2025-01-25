@@ -36,6 +36,7 @@ with st.expander("재료 입력"):
     recipe = get_input("recipe", 0.0)
     small_exp = get_input("small_exp", 0.0)
     mana_crystal = get_input("mana_crystal", 0.0)
+    high_small_exp = get_input("high_small_exp", 0.0)  # 고농축 소형 경험 획득 비약 가격 추가
 
     # 재료값 입력
     seed = st.number_input("쥬니퍼베리 씨앗의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=seed)
@@ -50,6 +51,7 @@ with st.expander("재료 입력"):
     recipe = st.number_input("고농축 레시피 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=recipe)
     small_exp = st.number_input("소형 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=small_exp)
     mana_crystal = st.number_input("마력결정 1개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=mana_crystal)
+    high_small_exp = st.number_input("소형 고농축 경험 획득의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=high_small_exp)
 
     # 값을 세션 상태에 저장
     if st.button("저장"):
@@ -65,6 +67,7 @@ with st.expander("재료 입력"):
         set_input("recipe", recipe)
         set_input("small_exp", small_exp)
         set_input("mana_crystal", mana_crystal)
+        set_input("high_small_exp", high_small_exp)
 
         st.success("재료 값이 저장되었습니다!")
 
@@ -99,9 +102,9 @@ elif option == "고급 보스킬러의 비약":
 elif option == "고농축 소형 경험 획득의 비약":
     st.header("고농축 소형 경험 획득의 비약 계산")
     
-    # 계산
-    total_material_cost = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
-    profit_per_5_fatigue = (small_exp * 4) - total_material_cost
+    # 고농축 소형 경험 획득 비약 4개의 가격에서 재료 가격을 빼는 방식으로 계산
+    total_material_cost = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+    profit_per_5_fatigue = (high_small_exp * 4) - total_material_cost
     total_exp_profit = profit_per_5_fatigue * 100
     st.success(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
     st.success(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
