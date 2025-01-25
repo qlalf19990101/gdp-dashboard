@@ -152,6 +152,7 @@ elif input_method == "레시피별 재료 입력":
         # 고농축 소형 경험 획득의 비약 입력
         recipe = get_input("recipe", 0.0)
         high_small_exp = get_input("high_small_exp", 0.0)
+        small_exp = get_input("small_exp", 0.0)
         hisop = get_input("hisop", 0.0)
         twilight_essence = get_input("twilight_essence", 0.0)
         mana_crystal = get_input("mana_crystal", 0.0)
