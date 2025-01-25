@@ -39,7 +39,7 @@ if input_method == "전체 재료 입력":
         recipe = get_input("recipe", 0.0)
         small_exp = get_input("small_exp", 0.0)
         mana_crystal = get_input("mana_crystal", 0.0)
-        high_small_exp = get_input("high_small_exp", 0.0)  # 고농축 소형 경험 획득 비약 가격 추가
+        high_small_exp = get_input("high_small_exp", 0.0)
 
         # 재료값 입력
         seed = st.number_input("쥬니퍼베리 씨앗의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=seed)
@@ -73,6 +73,36 @@ if input_method == "전체 재료 입력":
             set_input("high_small_exp", high_small_exp)
 
             st.success("재료 값이 저장되었습니다!")
+
+        # 재료 값을 기반으로 각각의 비약 이익 계산
+
+        # 1. 소형 재물 획득의 비약 계산
+        money_small_potion = potion * 6 - (seed * 30 + dol + dol2 * 2)
+        total_small_potion = money_small_potion * 100
+
+        # 2. 고급 보스킬러의 비약 계산
+        money_boss_potion = boss_potion * 2 - (boss_base + hisop * 60 + twilight_essence + spell_essence)
+        total_boss_potion = money_boss_potion * 50
+
+        # 3. 고농축 소형 경험 획득의 비약 계산
+        total_material_cost_high_exp = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+        money_high_small_exp = (high_small_exp * 4) - total_material_cost_high_exp
+        total_high_small_exp = money_high_small_exp * 100
+
+        st.subheader("계산된 결과")
+
+        # 결과 출력
+        st.write(f"1. 소형 재물 획득의 비약")
+        st.write(f"피로도 5당 이익: {format_money(money_small_potion)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_small_potion)}")
+
+        st.write(f"2. 고급 보스킬러의 비약")
+        st.write(f"피로도 10당 이익: {format_money(money_boss_potion)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_boss_potion)}")
+
+        st.write(f"3. 고농축 소형 경험 획득의 비약")
+        st.write(f"피로도 5당 이익: {format_money(money_high_small_exp)}")
+        st.write(f"피로도 500 소진 시 총 이익: {format_money(total_high_small_exp)}")
 
 elif input_method == "레시피별 재료 입력":
     # 레시피 선택
@@ -108,19 +138,18 @@ elif input_method == "레시피별 재료 입력":
         st.subheader("고급 보스킬러의 비약")
         boss_base = st.number_input("보스킬러의 비약 한 병의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=boss_base)
         hisop = st.number_input("히솝 꽃 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=hisop)
-        twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
+        twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0,
         spell_essence = st.number_input("상급 주문의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=spell_essence)
 
-        if st.button("고급 보스킬러 계산하기"):
+        if st.button("고급 보스킬러의 비약 계산하기"):
             # 고급 보스킬러의 비약 계산
-            boss_material_cost = boss_base + hisop * 60 + twilight_essence + spell_essence
-            profit_per_10_fatigue = boss_potion * 2 - boss_material_cost
-            total_boss_profit = profit_per_10_fatigue * 50
-            st.write(f"피로도 10당 이익: {format_money(profit_per_10_fatigue)}")
-            st.write(f"피로도 500 소진 시 총 이익: {format_money(total_boss_profit)}")
+            money_per_fatigue = boss_base * 2 - (hisop * 60 + twilight_essence + spell_essence)
+            total_money = money_per_fatigue * 50
+            st.write(f"피로도 10당 이익: {format_money(money_per_fatigue)}")
+            st.write(f"피로도 500 소진 시 총 이익: {format_money(total_money)}")
 
     elif recipe_choice == "고농축 소형 경험 획득의 비약":
-        # 고농축 소형 경험 획득 비약 입력
+        # 고농축 소형 경험 획득의 비약 입력
         recipe = get_input("recipe", 0.0)
         high_small_exp = get_input("high_small_exp", 0.0)
         hisop = get_input("hisop", 0.0)
@@ -134,10 +163,17 @@ elif input_method == "레시피별 재료 입력":
         twilight_essence = st.number_input("영롱한 황혼의 정수 한 개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=twilight_essence)
         mana_crystal = st.number_input("마력결정 1개의 가격 (단위: 만 메소)", min_value=0.0, step=0.1, value=mana_crystal)
 
-        if st.button("고농축 소형 경험 획득 비약 계산하기"):
-            # 고농축 소형 경험 획득 비약 계산
+        if st.button("고농축 소형 경험 획득의 비약 계산하기"):
+            # 고농축 소형 경험 획득의 비약 계산
             total_material_cost = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
-            profit_per_5_fatigue = (high_small_exp * 4) - total_material_cost
-            total_exp_profit = profit_per_5_fatigue * 100
-            st.write(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
-            st.write(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
+            money_per_fatigue = high_small_exp * 4 - total_material_cost
+            total_money = money_per_fatigue * 100
+            st.write(f"피로도 5당 이익: {format_money(money_per_fatigue)}")
+            st.write(f"피로도 500 소진 시 총 이익: {format_money(total_money)}")
+
+# 이익 계산 결과 하단 출력
+if input_method == "전체 재료 입력":
+    st.subheader("전체 이익 계산 결과")
+    st.write(f"소형 재물 획득의 비약: {format_money(total_small_potion)}")
+    st.write(f"고급 보스킬러의 비약: {format_money(total_boss_potion)}")
+    st.write(f"고농축 소형 경험 획득의 비약: {format_money(total_high_small_exp)}")
