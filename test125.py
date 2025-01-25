@@ -102,9 +102,12 @@ elif option == "고급 보스킬러의 비약":
 elif option == "고농축 소형 경험 획득의 비약":
     st.header("고농축 소형 경험 획득의 비약 계산")
     
-    # 고농축 소형 경험 획득 비약 4개의 가격에서 재료 가격을 빼는 방식으로 계산
-    total_material_cost = recipe + high_small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+    # 토탈 계산: 소형 경험 획득의 비약 가격으로 총 제작 비용 계산
+    total_material_cost = recipe + small_exp * 4 + hisop * 60 + twilight_essence * 2 + mana_crystal * 1000
+    
+    # 이익 계산: 소형 고농축 경험 획득의 비약 가격을 기준으로 계산
     profit_per_5_fatigue = (high_small_exp * 4) - total_material_cost
     total_exp_profit = profit_per_5_fatigue * 100
+    
     st.success(f"피로도 5당 이익: {format_money(profit_per_5_fatigue)}")
     st.success(f"피로도 500 소진 시 총 이익: {format_money(total_exp_profit)}")
